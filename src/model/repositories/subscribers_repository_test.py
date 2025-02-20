@@ -20,3 +20,13 @@ def test_select_subscriber():
         1
     )
     print(resp.nome)
+
+@pytest.mark.skip("Select in DB")
+def test_ranking():
+    event_id = 2
+    subs_repo = SubscribersRepository()
+    resp = subs_repo.get_ranking(event_id)
+    print()
+
+    for elem in resp:
+        print(f"Link: {elem.link}, total de inscritos: {elem.total}")
