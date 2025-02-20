@@ -2,6 +2,7 @@ from src.model.repositories.interfaces.subscribers_repository import Subscribers
 from src.http_types.http_request import HttpRequest
 from src.http_types.http_response import HttpResponse
 
+
 class SubscriberCreator:
     def __init__(self, events_repo: SubscribersRepositoryInterface):
         self.__subscribers_repo = events_repo
@@ -16,19 +17,18 @@ class SubscriberCreator:
         return self.__format_response(subscriber_info)
 
     def __check_sub(self, subscriber_email: str, event_id: int) -> None:
-        response = self.__subscribers_repo.select_subscriber(subscriber_email, event_id)
+        response = self.__subscribers_repo.select_subscriber(
+            subscriber_email, event_id)
 
-        if response: raise Exception("Subscriber already exists!")
+        if response:
+            raise Exception("Subscriber already exists!")
 
     def __insert_sub(self, subscriber_info: dict) -> None:
         self.__subscribers_repo.insert(subscriber_info)
 
     def __format_response(self, subscriber_info: dict) -> HttpResponse:
-        return HttpResponse(
-            {
-                "Type": "Subscriber",
-                "count": 1,
-                "attributes": subscriber_info
-            },
-            201
-        )
+        return HttpResponse({
+            "Type": "Subscriber",
+            "count": 1,
+            "attributes": subscriber_info
+        }, 201)
